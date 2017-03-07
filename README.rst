@@ -70,15 +70,13 @@ For this example, you need to have your handler in Lambda set as
 Running Tests
 -------------
 
-To run the tests locally, you need Python 2.7 and ``pip``. Ideally, you
-should use a virtualenv.
+Install and run `tox <https://tox.readthedocs.io/en/latest/>`_:
 
 .. code-block:: sh
 
-    $ pip install -r test-requirements.txt
-    $ py.test
+    tox
 
-The tests use ``mock`` and ``py.test`` and will give you a terminal
+The tests use ``mock`` and ``pytest`` and will give you a terminal
 coverage report. Currently the tests cover ~90% of the (very small)
 codebase.
 
