@@ -1,3 +1,10 @@
+backports.unittest_mock
+docutils
+flake8
+isort
 mock
+modernize
+multilint
+Pygments
 pytest
 pytest-cov

@@ -1,5 +1,8 @@
+# -*- coding:utf-8 -*-
+from __future__ import absolute_import
+
 import json
-import mock
+from unittest import mock
 
 import cfn_resource
 
@@ -41,8 +44,15 @@ def wrap_with_nothing(func, base_response=None):
 
 
 base_event = {
-    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/SomeStackHere3/d50d1280-a454-11e5-bd51-50e2416294a8",
-    "ResponseURL": "https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/arn%3Aaws%3Acloudformation%3Aus-east-1%3A368950843917%3Astack/SomeStackHere3/d50d1280-a454-11e5-bd51-50e2416294a8%7CFakeThing%7C79abbda7-092e-4534-9602-3ab4cc377807?AWSAccessKeyId=AKIAJNXHFR7P7YGKLDPQ&Expires=1450321030&Signature=HOCkeEsxMHHQMgnj3kx5gqLyfTU%3D",
+    "StackId": (
+        "arn:aws:cloudformation:us-east-1:123456789012:stack/SomeStackHere3/d50d1280-a454-11e5-bd51-50e2416294a8"
+    ),
+    "ResponseURL": (
+        "https://cloudformation-custom-resource-response-useast1.s3.amazonaws.com/"
+        "arn%3Aaws%3Acloudformation%3Aus-east-1%3A368950843917%3Astack/SomeStackHere3/"
+        "d50d1280-a454-11e5-bd51-50e2416294a8%7CFakeThing%7C79abbda7-092e-4534-9602-3ab4cc377807?"
+        "AWSAccessKeyId=AKIAJNXHFR7P7YGKLDPQ&Expires=1450321030&Signature=HOCkeEsxMHHQMgnj3kx5gqLyfTU%3D"
+    ),
     "ResourceProperties": {
         "OtherThing": "foobar",
         "ServiceToken": "arn:aws:lambda:us-east-1:123456789012:function:PyRsrc",
@@ -56,7 +66,8 @@ base_event = {
     "LogicalResourceId": "FakeThing"
 }
 
-### Tests for the wrapper function
+
+# Tests for the wrapper function
 
 
 @mock.patch('urllib2.urlopen')
@@ -67,7 +78,7 @@ def test_client_code_failure(urlmock):
     def flaky_function(*args):
         raise KeyError('Oopsie')
 
-    resp = rsrc(base_event.copy(), FakeLambdaContext())
+    rsrc(base_event.copy(), FakeLambdaContext())
 
     args = urlmock.call_args
     sent_req = args[0][0]
@@ -83,23 +94,25 @@ def test_client_code_failure(urlmock):
 def test_sends_put_request(urlmock):
     rsrc = cfn_resource.Resource()
 
-    resp = rsrc(base_event.copy(), FakeLambdaContext())
+    rsrc(base_event.copy(), FakeLambdaContext())
 
     args = urlmock.call_args
     sent_req = args[0][0]
 
     assert sent_req.get_method() == 'PUT'
 
-### Tests for the Resource object and its decorator for wrapping
-### user handlers
+
+# Tests for the Resource object and its decorator for wrapping user handlers
 
 def test_wraps_func():
     rsrc = cfn_resource.Resource(wrap_with_nothing)
+
     @rsrc.delete
     def delete(event, context):
         return {'Status': cfn_resource.FAILED}
     resp = rsrc(base_event.copy(), FakeLambdaContext())
     assert resp['Status'] == 'FAILED'
+
 
 def test_succeeds_default():
     event = base_event.copy()
@@ -114,6 +127,7 @@ def test_succeeds_default():
         'Reason': 'Life is good, man',
         'Data': {},
     }
+
 
 def test_double_register():
     rsrc = cfn_resource.Resource(wrap_with_nothing)
@@ -131,6 +145,7 @@ def test_double_register():
 
     resp = rsrc(event, FakeLambdaContext())
     assert resp['Data'] == {'called-from': 2}
+
 
 def test_no_override():
     rsrc = cfn_resource.Resource(wrap_with_nothing)

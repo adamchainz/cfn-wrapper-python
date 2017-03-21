@@ -1,4 +1,5 @@
-# MIT Licensed, Copyright (c) 2015 Ryan Scott Brown <sb@ryansb.com>
+# -*- coding:utf-8 -*-
+from __future__ import absolute_import
 
 import json
 import logging
@@ -22,6 +23,7 @@ Event example
     "Data": {}
 }
 """
+
 
 def wrap_user_handler(func, base_response=None):
     def wrapper_func(event, context):
@@ -69,6 +71,7 @@ def wrap_user_handler(func, base_response=None):
             logger.error("Failed to reach the server - %s" % e.reason)
 
     return wrapper_func
+
 
 class Resource(object):
     _dispatch = None
