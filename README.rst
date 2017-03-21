@@ -1,5 +1,5 @@
-cfn\_resource.py
-----------------
+``cfn-resource-timeout``
+------------------------
 
 This project is a decorator and validation system that takes the
 drudgery out of writing custom resources. You still have access to the
@@ -14,7 +14,7 @@ Usage
 -----
 
 1. Copy ``cfn_resource.py`` into the directory of your lambda function
-   handler.py
+   ``handler.py``, which can be done by installing with ``pip``.
 2. Use the ``cfn_resource.Resource`` event decorators to decorate your
    handler like in ``example.py``
 3. Zip up the contents and upload to Lambda
