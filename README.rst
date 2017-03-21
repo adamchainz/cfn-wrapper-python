@@ -68,6 +68,11 @@ For this example, you need to have your handler in Lambda set as
         # do some stuff
         return {"PhysicalResourceId": "arn:aws:fake:myID"}
 
+    @handler.delete
+    def delete_thing(event, context):
+        # do some stuff
+        return {"PhysicalResourceId": "arn:aws:fake:myID"}
+
 Running Tests
 -------------
 
