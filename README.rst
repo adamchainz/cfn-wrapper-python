@@ -1,5 +1,6 @@
+========================
 ``cfn-resource-timeout``
-------------------------
+========================
 
 This project is a decorator and validation system that takes the
 drudgery out of writing custom resources. You still have access to the

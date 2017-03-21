@@ -1,14 +1,12 @@
+import codecs
 from setuptools import setup
-from codecs import open
-from os import path
 
-here = path.abspath(path.dirname(__file__))
+with codecs.open('README.rst') as readme_file:
+    readme = readme_file.read()
 
-test_deps = ['mock', 'pytest', 'pytest-cov', 'pytest-xdist']
+with codecs.open('HISTORY.rst') as history_file:
+    history = history_file.read()
 
-# Get the long description from the README file
-with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
-    long_description = f.read()
 
 setup(
     name='cfn-resource-timeout',
@@ -16,7 +14,7 @@ setup(
     description=(
         'Wrapper decorators for building CloudFormation custom resources'
     ),
-    long_description=long_description,
+    long_description=readme + '\n\n' + history,
     url='https://github.com/timeoutdigital/cfn-resource-timeout',
     author='Ryan Scott Brown',
     author_email='sb@ryansb.com',
@@ -34,9 +32,6 @@ setup(
     keywords='cloudformation aws cloud custom resource amazon',
     py_modules=["cfn_resource"],
     install_requires=[],
-    extras_require={
-        'test': test_deps,
-    },
     package_data={},
     data_files=[],
     entry_points={},
