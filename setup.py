@@ -13,7 +13,7 @@ with codecs.open('HISTORY.rst') as history_file:
 
 setup(
     name='cfn-resource-timeout',
-    version='0.2.2',
+    version='1.0.0',
     description=(
         'Wrapper decorators for building CloudFormation custom resources'
     ),

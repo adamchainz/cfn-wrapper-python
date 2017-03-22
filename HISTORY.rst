@@ -6,6 +6,10 @@ Pending Release
 ---------------
 
 * (Insert new release notes below this line)
+
+1.0.0 (2017-03-22)
+------------------
+
 * Forked from RyanSB to Time Out.
 * Allow rescheduling - by raising the new built-in ``NoResponse`` exception, a
   resource can avoid sending any messing to CloudFormation. This is to support
