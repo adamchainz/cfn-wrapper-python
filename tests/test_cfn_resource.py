@@ -69,7 +69,6 @@ base_event = {
 
 # Tests for the wrapper function
 
-
 @mock.patch('urllib2.urlopen')
 def test_client_code_failure(urlmock):
     rsrc = cfn_resource.Resource()
@@ -100,6 +99,23 @@ def test_sends_put_request(urlmock):
     sent_req = args[0][0]
 
     assert sent_req.get_method() == 'PUT'
+
+
+@mock.patch('urllib2.urlopen')
+def test_wraps_func_noresponse(urlmock):
+    rsrc = cfn_resource.Resource()
+
+    event = base_event.copy()
+    event['RequestType'] = 'Create'
+
+    @rsrc.create
+    def create(event, context):
+        raise cfn_resource.NoResponse()
+
+    resp = rsrc(event, FakeLambdaContext())
+
+    assert resp is None
+    assert urlmock.mock_calls == []
 
 
 # Tests for the Resource object and its decorator for wrapping user handlers

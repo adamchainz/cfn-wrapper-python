@@ -43,6 +43,9 @@ def wrap_user_handler(func, base_response=None):
 
         try:
             response.update(func(event, context))
+        except NoResponse:
+            # Do nothing, maybe we're being rescheduled?
+            return
         except:
             logger.exception("Failed to execute resource function")
             response.update({
@@ -107,3 +110,7 @@ class Resource(object):
     def delete(self, wraps):
         self._dispatch['Delete'] = self._wrapper(wraps)
         return wraps
+
+
+class NoResponse(Exception):
+    pass
