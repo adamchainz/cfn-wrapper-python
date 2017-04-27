@@ -6,6 +6,7 @@ Pending Release
 ---------------
 
 * (Insert new release notes below this line)
+* Added Python 3 compatibility
 
 1.0.0 (2017-03-22)
 ------------------

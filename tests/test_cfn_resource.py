@@ -69,7 +69,7 @@ base_event = {
 
 # Tests for the wrapper function
 
-@mock.patch('urllib2.urlopen')
+@mock.patch('six.moves.urllib.request.urlopen')
 def test_client_code_failure(urlmock):
     rsrc = cfn_resource.Resource()
 
@@ -89,7 +89,7 @@ def test_client_code_failure(urlmock):
     assert reply['Reason'] == "Exception was raised while handling custom resource"
 
 
-@mock.patch('urllib2.urlopen')
+@mock.patch('six.moves.urllib.request.urlopen')
 def test_sends_put_request(urlmock):
     rsrc = cfn_resource.Resource()
 
@@ -101,7 +101,7 @@ def test_sends_put_request(urlmock):
     assert sent_req.get_method() == 'PUT'
 
 
-@mock.patch('urllib2.urlopen')
+@mock.patch('six.moves.urllib.request.urlopen')
 def test_wraps_func_noresponse(urlmock):
     rsrc = cfn_resource.Resource()
 
