@@ -36,7 +36,7 @@ setup(
     ],
     keywords='cloudformation aws cloud custom resource amazon',
     py_modules=["cfn_resource"],
-    install_requires=["six"],
+    install_requires=["requests"],
     package_data={},
     data_files=[],
     entry_points={},

@@ -3,8 +3,7 @@ from __future__ import absolute_import
 
 import json
 import logging
-
-from six.moves.urllib import error, request
+import requests
 
 
 logger = logging.getLogger()
@@ -59,20 +58,19 @@ def wrap_user_handler(func, base_response=None):
         logger.info("Responding to '%s' request with: %s" % (
             event['RequestType'], serialized))
 
-        req = request.Request(
+        req = requests.put(
             event['ResponseURL'], data=serialized,
-            headers={'Content-Length': len(serialized),
+            headers={'Content-Length': str(len(serialized)),
                      'Content-Type': ''}
         )
-        req.get_method = lambda: 'PUT'
 
         try:
-            request.urlopen(req)
+            req
             logger.debug("Request to CFN API succeeded, nothing to do here")
-        except error.HTTPError as e:
+        except requests.HTTPError as e:
             logger.error("Callback to CFN API failed with status %d" % e.code)
             logger.error("Response: %s" % e.reason)
-        except error.URLError as e:
+        except requests.ConnectionError as e:
             logger.error("Failed to reach the server - %s" % e.reason)
 
     return wrapper_func

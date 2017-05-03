@@ -2,9 +2,8 @@
 from __future__ import absolute_import
 
 import json
-from unittest import mock
-
 import cfn_resource
+import responses
 
 
 class FakeLambdaContext(object):
@@ -66,11 +65,28 @@ base_event = {
     "LogicalResourceId": "FakeThing"
 }
 
+response = {
+    "StackId": base_event["StackId"],
+    "RequestId": base_event["RequestId"],
+    "LogicalResourceId": base_event["LogicalResourceId"],
+    "Status": cfn_resource.SUCCESS,
+}
 
 # Tests for the wrapper function
 
-@mock.patch('six.moves.urllib.request.urlopen')
-def test_client_code_failure(urlmock):
+
+@responses.activate
+def test_client_code_failure():
+    serialized = json.dumps(response)
+
+    responses.add(
+        responses.PUT,
+        base_event['ResponseURL'],
+        json=serialized,
+        content_type='application/json',
+        match_querystring=True
+    )
+
     rsrc = cfn_resource.Resource()
 
     @rsrc.delete
@@ -79,30 +95,35 @@ def test_client_code_failure(urlmock):
 
     rsrc(base_event.copy(), FakeLambdaContext())
 
-    args = urlmock.call_args
-    sent_req = args[0][0]
-
-    reply = json.loads(sent_req.data)
+    body = responses.calls[0].request.body
+    reply = json.loads(body)
 
     assert reply['Status'] == cfn_resource.FAILED
     assert reply['StackId'] == base_event['StackId']
     assert reply['Reason'] == "Exception was raised while handling custom resource"
 
 
-@mock.patch('six.moves.urllib.request.urlopen')
-def test_sends_put_request(urlmock):
-    rsrc = cfn_resource.Resource()
+@responses.activate
+def test_sends_put_request():
+    serialized = json.dumps(response)
 
+    responses.add(
+        responses.PUT,
+        base_event['ResponseURL'],
+        json=serialized,
+        content_type='application/json',
+        match_querystring=True
+    )
+
+    rsrc = cfn_resource.Resource()
     rsrc(base_event.copy(), FakeLambdaContext())
 
-    args = urlmock.call_args
-    sent_req = args[0][0]
-
-    assert sent_req.get_method() == 'PUT'
+    assert responses.calls[0].request.method == 'PUT'
 
 
-@mock.patch('six.moves.urllib.request.urlopen')
-def test_wraps_func_noresponse(urlmock):
+@responses.activate
+def test_wraps_func_noresponse():
+
     rsrc = cfn_resource.Resource()
 
     event = base_event.copy()
@@ -115,10 +136,10 @@ def test_wraps_func_noresponse(urlmock):
     resp = rsrc(event, FakeLambdaContext())
 
     assert resp is None
-    assert urlmock.mock_calls == []
 
 
 # Tests for the Resource object and its decorator for wrapping user handlers
+
 
 def test_wraps_func():
     rsrc = cfn_resource.Resource(wrap_with_nothing)

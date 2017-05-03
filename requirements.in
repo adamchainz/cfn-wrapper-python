@@ -8,4 +8,5 @@ multilint
 Pygments
 pytest
 pytest-cov
-six
+requests
+responses
