@@ -7,6 +7,11 @@ Pending Release
 
 * (Insert new release notes below this line)
 
+1.2.0 (2017-05-03)
+------------------
+
+* Move from ``urllib`` to ``requests`` to fix some encoding errors on Python 3
+
 1.1.0 (2017-04-27)
 ------------------
 
