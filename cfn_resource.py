@@ -3,8 +3,8 @@ from __future__ import absolute_import
 
 import json
 import logging
-import requests
 
+import requests
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
