@@ -47,7 +47,7 @@ def wrap_user_handler(func, base_response=None):
         except NoResponse:
             # Do nothing, maybe we're being rescheduled?
             return
-        except:
+        except Exception:
             logger.exception("Failed to execute resource function")
             response.update({
                 "Status": FAILED,
