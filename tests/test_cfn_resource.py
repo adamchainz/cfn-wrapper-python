@@ -3,8 +3,9 @@ from __future__ import absolute_import
 
 import json
 
-import cfn_resource
 import responses
+
+import cfn_resource
 
 
 class FakeLambdaContext(object):
