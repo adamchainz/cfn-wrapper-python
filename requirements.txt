@@ -4,10 +4,10 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
-atomicwrites==1.1.5       # via pytest
-attrs==18.1.0             # via pytest
-backports.unittest-mock==1.3
-certifi==2018.4.16        # via requests
+atomicwrites==1.2.1       # via pytest
+attrs==18.2.0             # via pytest
+backports.unittest-mock==1.4
+certifi==2018.8.24        # via requests
 chardet==3.0.4            # via requests
 configparser==3.5.0       # via flake8
 cookies==2.2.1            # via responses
@@ -22,17 +22,19 @@ isort==4.3.4
 mccabe==0.6.1             # via flake8
 mock==2.0.0
 modernize==0.6.1
-more-itertools==4.2.0     # via pytest
+more-itertools==4.3.0     # via pytest
 multilint==2.3.0
-pbr==4.0.4                # via mock
-pluggy==0.6.0             # via pytest
-py==1.5.4                 # via pytest
+pathlib2==2.3.2           # via pytest
+pbr==4.2.0                # via mock
+pluggy==0.7.1             # via pytest
+py==1.6.0                 # via pytest
 pycodestyle==2.3.1        # via flake8
 pyflakes==1.6.0           # via flake8
 pygments==2.2.0
-pytest-cov==2.5.1
-pytest==3.6.2
+pytest-cov==2.6.0
+pytest==3.8.1
 requests==2.19.1
 responses==0.9.0
-six==1.11.0               # via mock, more-itertools, multilint, pytest, responses
+scandir==1.9.0            # via pathlib2
+six==1.11.0               # via mock, more-itertools, multilint, pathlib2, pytest, responses
 urllib3==1.23             # via requests
